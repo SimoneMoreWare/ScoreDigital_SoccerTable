@@ -5,12 +5,14 @@
 
 #define buzzer_pin 33
 #define photoresistore_red_pin 32
+#define photoresistore_blu_pin 35
 
 const char* ssid = "CEUR Mollino";
 const char* password = "";
 
 void OTAupload();
 void checkgoal_red();
+void checkgoal_blu();
 
 void setup() {
   OTAupload();
@@ -21,6 +23,7 @@ void setup() {
 void loop() {
   ArduinoOTA.handle();
   checkgoal_red();
+  checkgoal_blu();
 }
 
 void OTAupload(){
@@ -83,8 +86,25 @@ void checkgoal_red(){
     digitalWrite(buzzer_pin,LOW);
     delay(750);
   }
+  Serial.print("Red:");
+  Serial.print(analogValue);
+  Serial.print('\n');
+  delay(30);
+}
+
+void checkgoal_blu(){
+  int analogValue = analogRead(photoresistore_blu_pin);
+ 
+  if(analogValue<2000){
+    digitalWrite(buzzer_pin,HIGH);
+    //Serial.print(analogValue);
+    delay(750);
+    digitalWrite(buzzer_pin,LOW);
+    delay(750);
+  }
   
-  //Serial.print(analogValue);
-  //Serial.print('\n');
+  Serial.print("Blu:");
+  Serial.print(analogValue);
+  Serial.print('\n');
   delay(30);
 }
