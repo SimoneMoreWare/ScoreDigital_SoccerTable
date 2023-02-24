@@ -2,7 +2,6 @@
 #include <ESPmDNS.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
-#include <HTTPClient.h>
 
 #define buzzer_pin 33
 #define photoresistore_red_pin 32
