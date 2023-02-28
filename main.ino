@@ -4,17 +4,17 @@
 #include <HTTPClient.h>
 
 #define buzzer_pin 33
-#define photoresistore_red_pin 32
-#define photoresistore_blu_pin 35
+#define photoresistore_blu_pin 32
+#define photoresistore_red_pin 34
 #define soglia 2000
 
 const char* ssid = "OPPO A52";
 const char* password = "internet";
+                
+String ServerName = "http://ec2-34-250-23-168.eu-west-1.compute.amazonaws.com/increment/";
 
-String ServerName = "https://studyroompoli.altervista.org/balilla/getdata.php?token=MullinB&goal=";
-
-void checkgoal_red();
 void checkgoal_blu();
+void checkgoal_red();
 void checkconnection();
 void httpget(int team);
 
@@ -41,8 +41,9 @@ void checkgoal_red(){
     digitalWrite(buzzer_pin,HIGH);
     httpget(0);
     digitalWrite(buzzer_pin,LOW);
-  }
-  delay(1);
+    delay(3500);
+  }  
+
 }
 
 void checkgoal_blu(){
@@ -51,13 +52,15 @@ void checkgoal_blu(){
     digitalWrite(buzzer_pin,HIGH);
     httpget(1);
     digitalWrite(buzzer_pin,LOW);
+    delay(3500); 
   }  
+
 }
 
 void httpget(int team){
   if ((WiFi.status() == WL_CONNECTED)) { //Check the current connection status
     HTTPClient http;
-    String NameRequest = ServerName + String(team);
+    String NameRequest = ServerName + String(team) + String("/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9");
     http.begin(NameRequest); //Specify the URL
     int httpCode = http.GET();                                        //Make the requesT
     http.end(); //Free the resources
